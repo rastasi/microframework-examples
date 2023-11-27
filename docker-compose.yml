@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+  mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    logging:
+      driver: none
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql:/tools
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+    networks:
+      inner:
+        aliases:
+          - mysql
+  phpmyadmin:
+    platform: linux/x86_64
+    image: phpmyadmin/phpmyadmin
+    logging:
+      driver: none
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8081:80
+    networks:
+      inner:
+        aliases:
+          - pma
+  todo_service:
+      build:
+       context: ./
+       dockerfile: apps/todo_service/Dockerfile.development
+      environment:
+          docker: "true"
+          DATABASE_ENGINE: "mysql"
+          DATABASE_HOST: "mysql"
+          DATABASE_NAME: "database"
+          DATABASE_USER: "root"
+          DATABASE_PASSWORD: "toor"
+      expose:
+          - 8080
+      ports:
+          - "8080:8080"
+      volumes:
+          - ./apps/todo_service:/var/www
+          - logs:/var/www/logs
+      networks:
+        inner:
+          aliases:
+            - todo_service
+networks:
+  inner: {}
+volumes:
+    db_data: {}
+    logs:
+        driver: local
