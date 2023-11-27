@@ -2,7 +2,7 @@
 
 namespace App\Lib;
 
-enum HttpMethod {
+enum HTTPMethod {
     case OPTIONS;
     case GET;
     case POST;

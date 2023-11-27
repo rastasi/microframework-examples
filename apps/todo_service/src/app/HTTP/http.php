@@ -4,8 +4,8 @@ use App\HTTP\Controllers\TodoController;
 use App\Domain\Services\TodoService;
 use App\Domain\Repositories\TodoRepository;
 use App\HTTP\Middlewares\LoggerMiddleware;
-use App\Lib\HttpMethod;
-use App\Lib\HttpServer;
+use App\Lib\HTTPMethod;
+use App\Lib\HTTPServer;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '../../../lib/database.php';
@@ -16,14 +16,15 @@ $todoController = new TodoController(
     )
 );
 
-$server = new HttpServer();
+$server = new HTTPServer();
 
 $server->addMiddleware('/todo', LoggerMiddleware::class);
 
-$server->addRoute(HttpMethod::GET, '/todo', [$todoController, 'index']);
-$server->addRoute(HttpMethod::GET, '/todo/{todoId}', [$todoController, 'show']);
-$server->addRoute(HttpMethod::POST, '/todo', [$todoController, 'create']);
-$server->addRoute(HttpMethod::PUT, '/todo/{todoId}', [$todoController, 'update']);
-$server->addRoute(HttpMethod::DELETE, '/todo/{todoId}', [$todoController, 'destroy']);
+$server->addRoute(HTTPMethod::GET, '/todo', [$todoController, 'index']);
+$server->addRoute(HTTPMethod::GET, '/todo/{todoId}', [$todoController, 'show']);
+$server->addRoute(HTTPMethod::POST, '/todo', [$todoController, 'create']);
+$server->addRoute(HTTPMethod::PUT, '/todo/{todoId}', [$todoController, 'update']);
+$server->addRoute(HTTPMethod::DELETE, '/todo/{todoId}', [$todoController, 'destroy']);
+
 
 $server->run();

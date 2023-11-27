@@ -4,6 +4,7 @@ namespace App\HTTP\Controllers;
 
 use App\Domain\DTOs\TodoDTO;
 use App\Domain\Services\TodoService;
+use App\Lib\HTTPUtils;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -18,15 +19,13 @@ class TodoController
     public function index(Request $request, Response $response, array $arg)
     {
         $todos = $this->todoService->getAll();
-        $response->withStatus(200)->getBody()->write(json_encode($todos));
-        return $response;
+        return HTTPUtils::jsonResponse($response, 201, $todos);
     }
 
     public function show(Request $request, Response $response, array $args)
     {
         $todo = $this->todoService->get($args['todoId']);
-        $response->withStatus(200)->getBody()->write(json_encode($todo));
-        return $response;
+        return HTTPUtils::jsonResponse($response, 200, $todo);;
     }
 
     public function create(Request $request, Response $response, array $args)
@@ -36,8 +35,7 @@ class TodoController
             title: $payload["title"],
             description: $payload["description"],
         ));
-        $response->withStatus(201)->getBody()->write(json_encode($todo));
-        return $response;
+        return HTTPUtils::jsonResponse($response, 201, $todo);
     }
 
     public function update(Request $request, Response $response, array $args)
@@ -47,14 +45,12 @@ class TodoController
             title: $payload["title"],
             description: $payload["description"],
         ));
-        $response->withStatus(200)->getBody()->write(json_encode($todo));
-        return $response;
+        return HTTPUtils::jsonResponse($response, 200, $todo);;
     }
 
     public function destroy(Request $request, Response $response, array $args)
     {
         $this->todoService->destroy($args['todoId']);
-        $response->withStatus(204)->getBody()->write("No content");
-        return $response;
+        return $response->withStatus(204)->getBody()->write("No content");
     }
 }

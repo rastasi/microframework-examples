@@ -5,7 +5,7 @@ namespace App\Lib;
 use Slim\Factory\AppFactory;
 use Slim\App;
 
-class HttpServer {
+class HTTPServer {
 
     private App $app;
 
@@ -16,7 +16,7 @@ class HttpServer {
 
     public function addMiddleware(string $path, $handler)
     {
-        $this->app->group($path, function() {})->add($handler);
+        $this->app->add($handler);
     }
 
     public function addRoute(HttpMethod $method, string $path, $handler)
