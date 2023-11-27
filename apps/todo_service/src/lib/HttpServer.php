@@ -7,7 +7,7 @@ use Slim\App;
 
 class HTTPServer {
 
-    private App $app;
+    public App $app;
 
     public function __construct()
     {

@@ -26,5 +26,4 @@ $server->addRoute(HTTPMethod::POST, '/todo', [$todoController, 'create']);
 $server->addRoute(HTTPMethod::PUT, '/todo/{todoId}', [$todoController, 'update']);
 $server->addRoute(HTTPMethod::DELETE, '/todo/{todoId}', [$todoController, 'destroy']);
 
-
 $server->run();
