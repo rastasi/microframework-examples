@@ -61,6 +61,31 @@ services:
         inner:
           aliases:
             - php_service
+      depends_on:
+        - mysql
+  python_service:
+      build:
+       context: ./apps/python_service/
+       dockerfile: Dockerfile.development
+      environment:
+          docker: "true"
+          DATABASE_ENGINE: "mysql"
+          DATABASE_HOST: "mysql"
+          DATABASE_NAME: "database"
+          DATABASE_USER: "root"
+          DATABASE_PASSWORD: "toor"
+      expose:
+          - 5001
+      ports:
+          - "5001:5000"
+      volumes:
+          - ./apps/python_service:/app
+      networks:
+        inner:
+          aliases:
+            - python_service
+      depends_on:
+        - mysql
 networks:
   inner: {}
 volumes:
