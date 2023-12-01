@@ -39,10 +39,10 @@ services:
       inner:
         aliases:
           - pma
-  todo_service:
+  php_service:
       build:
        context: ./
-       dockerfile: apps/todo_service/Dockerfile.development
+       dockerfile: apps/php_service/Dockerfile.development
       environment:
           docker: "true"
           DATABASE_ENGINE: "mysql"
@@ -55,12 +55,12 @@ services:
       ports:
           - "8080:8080"
       volumes:
-          - ./apps/todo_service:/var/www
+          - ./apps/php_service:/var/www
           - logs:/var/www/logs
       networks:
         inner:
           aliases:
-            - todo_service
+            - php_service
 networks:
   inner: {}
 volumes:
