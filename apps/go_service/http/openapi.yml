@@ -1,0 +1,37 @@
+openapi: 3.1.0
+info:
+  title: Monitor Report
+  version: 1.0.0
+paths:
+  /monitor/admin:
+    get:
+      description: Get monitor report
+      responses:
+        '200':
+          description: Monitor report
+
+  /monitor/own/{{productId}}:
+    get:
+      description: Get monitor report for product
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Monitor report for product
+components:
+  Monitor:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      name:
+        type: string
+      value:
+        type: string
+      createdAt:
+        type: string
